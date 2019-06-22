@@ -12,9 +12,7 @@ const mongoDBConnectionString =
 
 mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
 
-app.get('/', (req, res) => {
-    return res.send({ message: 'Hello' });
-});
+app.use(require('./routes'));
 
 app.listen(port, () => {
     console.log(`Servidor iniciado na porta ${port}`);
