@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3333;
@@ -11,6 +12,8 @@ const mongoDBConnectionString =
         : process.env.DEV_MONGODB_CONNECTION_STRING;
 
 mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
+
+app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resized')));
 
 app.use(require('./routes'));
 
