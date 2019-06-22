@@ -31,6 +31,8 @@ const create = async (req, res) => {
         image
     });
 
+    req.io.emit('post', post);
+
     return res.json({ post });
 };
 

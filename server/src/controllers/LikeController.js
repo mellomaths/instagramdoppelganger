@@ -6,6 +6,8 @@ const create = async (req, res) => {
     post.likes++;
     await post.save();
 
+    req.io.emit('like', post);
+
     return res.json({ post });
 };
 
