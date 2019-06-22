@@ -13,6 +13,9 @@ const create = async (req, res) => {
     const { author, place, description, hashtags } = req.body;
     const { filename: image } = req.file;
 
+    const [name] = image.split('.');
+    const fileName = `${name}.jpg`;
+
     await sharp(req.file.path)
         .resize(500)
         .jpeg({ quality: 70 })
