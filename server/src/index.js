@@ -10,16 +10,15 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const port = process.env.PORT || 3333;
-const mongoDBConnectionString =
-    process.env.NODE_ENV === 'production'
-        ? process.env.MONGODB_CONNECTION_STRING
-        : process.env.DEV_MONGODB_CONNECTION_STRING;
+const mongoDBConnectionString = process.env.NODE_ENV === 'production'
+  ? process.env.MONGODB_CONNECTION_STRING
+  : process.env.DEV_MONGODB_CONNECTION_STRING;
 
 mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
 
 app.use((req, res, next) => {
-    req.io = io;
-    next();
+  req.io = io;
+  next();
 });
 
 app.use(cors());
@@ -28,6 +27,4 @@ app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resiz
 
 app.use(require('./routes'));
 
-server.listen(port, () => {
-    console.log(`Servidor iniciado na porta ${port}`);
-});
+server.listen(port);
