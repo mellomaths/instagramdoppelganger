@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ImagePicker from 'react-native-image-picker';
+
 import { Text, StyleSheet, View, TouchableOpacity, TextInput, Image } from 'react-native';
 
 export default class New extends Component {
@@ -7,18 +9,60 @@ export default class New extends Component {
     };
 
     state = {
+        preview: null,
+        image: null,
         author: '',
         place: '',
         description: '',
         hashtags: ''
     };
 
+    handleSelectImage = () => {
+        ImagePicker.showImagePicker(
+            {
+                title: 'Select a image'
+            },
+            upload => {
+                if (upload.error) {
+                    console.log(upload.error);
+                } else if (upload.didCancel) {
+                    console.log('User canceled');
+                } else {
+                    const preview = {
+                        uri: `data:image/jpeg;base64,${upload.data}`
+                    };
+
+                    let prefix;
+                    let ext;
+
+                    if (upload.fileName) {
+                        [prefix, ext] = upload.fileName.split('.');
+                        ext = ext.toLocaleLowerCase() === 'heic' ? 'jpg' : ext;
+                    } else {
+                        prefix = new Date().getTime();
+                        ext = 'jpg';
+                    }
+
+                    const image = {
+                        uri: upload.uri,
+                        type: upload.type,
+                        name: `${prefix}.${ext}`
+                    };
+
+                    this.setState({ preview, image });
+                }
+            }
+        );
+    };
+
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.selectButton} onPress={() => {}}>
+                <TouchableOpacity style={styles.selectButton} onPress={this.handleSelectImage}>
                     <Text style={styles.selectButtonText}>Select a image</Text>
                 </TouchableOpacity>
+
+                {this.state.preview && <Image style={styles.preview} source={this.state.preview} />}
 
                 <TextInput
                     style={styles.input}
