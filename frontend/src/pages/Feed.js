@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
 
 import api from '../services/api';
 
@@ -15,9 +16,19 @@ export default class Feed extends Component {
     };
 
     async componentDidMount() {
+        this.registerToSocket();
+
         const response = await api.get('posts');
         this.setState({ feed: response.data.posts });
     }
+
+    registerToSocket = () => {
+        const socket = io('http://localhost:3333');
+
+        socket.on('post', newPost => {
+            this.setState({ feed: [newPost, ...this.state.feed] });
+        });
+    };
 
     handleLike = id => {
         api.post(`/posts/${id}/like`);
