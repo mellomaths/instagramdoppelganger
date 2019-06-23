@@ -52,7 +52,7 @@ export default class Feed extends Component {
 
                             <strong>{post.likes} likes</strong>
                             <p>
-                                Um post muito massa
+                                {post.description}
                                 <span>{post.hashtags}</span>
                             </p>
                         </footer>
