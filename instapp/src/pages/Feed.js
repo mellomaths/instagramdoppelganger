@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 
+import api from '../services/api';
+
 import camera from '../assets/camera.png';
 
 export default class Feed extends Component {
@@ -11,6 +13,18 @@ export default class Feed extends Component {
             </TouchableOpacity>
         )
     });
+
+    state = {
+        feed: []
+    };
+
+    async componentDidMount() {
+        // this.registerToSocket();
+
+        const response = await api.get('posts');
+        console.log(response.data);
+        this.setState({ feed: response.data.posts });
+    }
 
     render() {
         return (
