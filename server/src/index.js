@@ -18,7 +18,7 @@ const mongoDBConnectionString =
 mongoose.connect(mongoDBConnectionString, { useNewUrlParser: true });
 
 app.use((req, res, next) => {
-    res.io = io;
+    req.io = io;
     next();
 });
 
