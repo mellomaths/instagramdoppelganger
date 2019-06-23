@@ -25,7 +25,7 @@ export default class Feed extends Component {
         return (
             <section id="post-list">
                 {feed.map(post => (
-                    <article>
+                    <article key={post.id}>
                         <header>
                             <div className="user-info">
                                 <span>{post.author}</span>
